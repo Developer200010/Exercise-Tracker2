@@ -25,13 +25,13 @@ const UserSchema = mongoose.Schema({
 const User = mongoose.model("user", UserSchema);
 
 const ExerciseSchema = mongoose.Schema({
+  description:String,
+  duration:Number,
+  date:Date,
   user_id:{
     type: String,
     required: true
   },
-  description:String,
-  duration:Number,
-  date:Date
 });
 const Exercise = mongoose.model("exercise", ExerciseSchema);
 
@@ -69,10 +69,10 @@ app.post("/api/users/:_id/exercises",async (req,res)=>{
       res.send("Could not find user");
     } else{
       const exerciseObj = new Exercise({
-        user_id : user._id,
         description,
         duration,
         date: date ? new Date(date) : new Date(),
+        user_id : user._id,
       });
       const exercise = await exerciseObj.save();
       res.json({
